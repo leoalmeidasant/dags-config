@@ -1,0 +1,36 @@
+---
+# Configuration file for loading data from "databasename"
+# Parameters
+#     * job: name of the job. This name appears in the Airflow UI as the DAG's name
+#     * default_args: DAG default args
+#     * schedule: CRON expression specifiying DAG schedule
+#     * type: Database engine type. This parameter is used in order to use the right loader to create the DAG worflow
+#     * db_name: Database name
+#     * db_connection: Airflow connection variable name 
+#     * bucket_name: AWS S3 bucket name
+#     * prefix: AWS S3 bucket prefix
+#     * table: List of tables to be loaded to AWS S3. The list should contain a field (filteredBy) allowing for filtering data, so
+#       incremental loads can be performed. Also, column data types should be provided as specified below
+
+job: 'databasename-s3-loader-dag'
+default_args: '{"owner": "ajhenaor", "start_date": "2019-12-01"}'
+schedule: '0 5 * * *'
+type: 'mysql'
+version: 1.0
+db_name: 'databasename'
+db_connection: 'TABLE1_DB_ACCESS'
+bucket_name: 'bucket'
+prefix: 'prefix'
+tables:
+    - table1:
+        filteredBy : 'datefield'
+        columnTypes:
+          datefield: string
+          field1: string
+          field2: integer
+    - table2:
+        filteredBy : 'date'
+        columnTypes:
+            datefield: string
+            field1: string
+            field2: integer
